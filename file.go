@@ -8,10 +8,14 @@ import (
 	"strings"
 )
 
+// ReadCitiesFile read the cities file and fills citiesMap and citiesLedger maps
 func ReadCitiesFile(fileName string) (map[string]map[string]bool, map[int]string) {
 	var cityNumber int
 
+	// store each city with his adjacent cities
 	citiesMap := make(map[string]map[string]bool)
+
+	// associate a number with a city
 	citiesLedger := make(map[int]string)
 
 	f, err := os.Open(fileName)
@@ -24,6 +28,7 @@ func ReadCitiesFile(fileName string) (map[string]map[string]bool, map[int]string
 
 	scanner := bufio.NewScanner(f)
 
+	// read each line, split it and fill the maps
 	for scanner.Scan() {
 		line := scanner.Text()
 		tokens := strings.Split(line, " ")
@@ -43,13 +48,16 @@ func ReadCitiesFile(fileName string) (map[string]map[string]bool, map[int]string
 	return citiesMap, citiesLedger
 }
 
+// processTokens retrieve each useful information (mainCity and adjCities) of the line that was split with spaces
 func processTokens(tokens []string) (string, map[string]bool) {
 	adjacentCities := make(map[string]bool)
 
 	mainCity := tokens[0]
 
+	// ignore the first item of the list (mainCity)
 	for _, token := range tokens[1:] {
 		adjCities := strings.Split(token, "=")
+		// ignore the direction
 		adjacentCities[adjCities[1]] = true
 	}
 
