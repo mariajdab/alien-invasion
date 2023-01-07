@@ -2,31 +2,30 @@ package file
 
 import (
 	"bufio"
-	"fmt"
+	"io"
 	"log"
 	"os"
 	"strings"
 )
 
-// ReadCitiesFile reads the cities file and fills citiesMap and citiesLedger maps
-func ReadCitiesFile(fileName string) (map[string]map[string]bool, map[int]string) {
-	var cityNumber int
-
-	// stores each city with his adjacent cities
-	citiesMap := make(map[string]map[string]bool)
-
-	// associates a number with a city
-	citiesLedger := make(map[int]string)
-
+// OpenAndReadCitiesFile opens and reads the cities file and fills citiesMap and citiesLedger maps
+func OpenAndReadCitiesFile(fileName string) (map[string]map[string]bool, map[int]string) {
 	f, err := os.Open(fileName)
-
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer f.Close()
+	return ReadCitiesFile(f)
+}
 
-	scanner := bufio.NewScanner(f)
+func ReadCitiesFile(reader io.Reader) (map[string]map[string]bool, map[int]string) {
+	cityNumber := 0
+	// stores each city with his adjacent cities
+	citiesMap := make(map[string]map[string]bool)
+	// associates a number with a city
+	citiesLedger := make(map[int]string)
+	scanner := bufio.NewScanner(reader)
 
 	// reads each line, split it and fill the maps
 	for scanner.Scan() {
@@ -43,7 +42,6 @@ func ReadCitiesFile(fileName string) (map[string]map[string]bool, map[int]string
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(citiesMap, citiesLedger)
 
 	return citiesMap, citiesLedger
 }
