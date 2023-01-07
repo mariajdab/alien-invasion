@@ -25,7 +25,8 @@ func (s *Simulator) MainLoop() {
 	}
 }
 
-// updateMap updates the map removing the city from the map if two Aliens are in the city, also the two Aliens will be destroyed
+// updateMap updates the map removing the city from the map if two Aliens are in the city,
+// also the two Aliens will be destroyed
 func (s *Simulator) updateMap() {
 	aliensPerCity := make(map[string][]int)
 
@@ -37,6 +38,8 @@ func (s *Simulator) updateMap() {
 	}
 
 	for city, aliensIndexes := range aliensPerCity {
+		// only if there are two aliens in the same city they will fight,
+		// if there are three o more aliens in the same city is supposed that they can have a good relation
 		if len(aliensIndexes) == aliensFight {
 			log.Printf("%s has been destryed by alien %d and alien %d\n", city, aliensIndexes[0], aliensIndexes[1])
 			delete(s.CitiesMap, city)
@@ -58,7 +61,7 @@ func (s *Simulator) updateMap() {
 	}
 }
 
-// aliensUnder10kOrAllNi in charges of update the alien position for each iteration
+// updateAliensInMap in charges of update the alien position for each iteration
 func (s *Simulator) updateAliensInMap() {
 	for _, alien := range s.Aliens {
 		if alien != nil {
@@ -68,7 +71,7 @@ func (s *Simulator) updateAliensInMap() {
 	}
 }
 
-// aliensUnder10kOrAllNi will return false if all the Aliens are nil or all the Aliens has reached 10k steps
+// aliensUnder10kOrAllNil will return false if all the Aliens are nil or all the Aliens has reached 10k steps
 func (s *Simulator) aliensUnder10kOrAllNil() bool {
 	for _, alien := range s.Aliens {
 		if alien != nil && alien.StepsCount < maxStepCount {
