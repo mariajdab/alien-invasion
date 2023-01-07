@@ -42,7 +42,7 @@ func main() {
 	s.mainLoop()
 }
 
-// mainLoop starts and maintains the simulator until the conditional if not valid
+// mainLoop starts and maintains the simulator until the conditional is not valid
 func (s Simulator) mainLoop() {
 	// each alien hasn't moved at least 10k times or all the aliens haven't been destroyed,
 	// also it's considered that the citiesMap could be a nil map, so the condition is added to prevent an error
@@ -56,7 +56,7 @@ func (s Simulator) mainLoop() {
 	}
 }
 
-// updateMap updates the map removing the city from the map if two aliens were in the city, also the two aliens be destroyed
+// updateMap updates the map removing the city from the map if two aliens are in the city, also the two aliens will be destroyed
 func (s Simulator) updateMap() {
 	aliensPerCity := make(map[string][]int)
 
