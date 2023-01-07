@@ -6,8 +6,10 @@ import (
 	"github.com/mariajdab/alien-invasion/alien"
 )
 
-const maxStepCount = 10000
-const aliensFight = 2
+const (
+	maxStepCount = 10000
+	aliensFight  = 2
+)
 
 type Simulator struct {
 	Aliens     []*alien.Alien
@@ -33,7 +35,6 @@ func (s *Simulator) updateMap() {
 	for index, alien := range s.Aliens {
 		if alien != nil {
 			aliensPerCity[alien.Position] = append(aliensPerCity[alien.Position], index)
-			//log.Printf("%#v\n", alien)
 		}
 	}
 
