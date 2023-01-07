@@ -5,29 +5,33 @@ import (
 	"log"
 	"math/rand"
 	"time"
+
+	"github.com/mariajdab/alien-invasion/alien"
+	"github.com/mariajdab/alien-invasion/file"
 )
 
 const maxStepCount = 10000
+const aliensFight = 2
 
 type Simulator struct {
-	aliens     []*Alien
+	aliens     []*alien.Alien
 	citiesMap  map[string]map[string]bool
 	cityLedger map[int]string
 }
 
 func main() {
 	rand.Seed(time.Now().Unix())
-	citiesMap, citiesLedger := ReadCitiesFile("cities_list.txt")
+	citiesMap, citiesLedger := file.ReadCitiesFile("cities_list.txt")
 	//alienNumber, err := strconv.Atoi(os.Args[1])
 	//if err != nil {
 	//
 	//}
 
 	alienNumber := 2
-	aliens := make([]*Alien, 2)
+	aliens := make([]*alien.Alien, 2)
 
 	for i := 0; i < alienNumber; i++ {
-		aliens[i] = &Alien{
+		aliens[i] = &alien.Alien{
 			StepsCount: 0,
 		}
 		aliens[i].InitRandomPosition(citiesLedger)
@@ -69,12 +73,12 @@ func (s Simulator) updateMap() {
 
 	for city, aliensIndexes := range aliensPerCity {
 		fmt.Println(aliensIndexes)
-		if len(aliensIndexes) == 2 {
+		if len(aliensIndexes) == aliensFight {
 			log.Printf("%s has been destryed by alien %d and alien %d\n", city, aliensIndexes[0], aliensIndexes[1])
 			delete(s.citiesMap, city)
 
-			remove(s.aliens, aliensIndexes[0])
-			remove(s.aliens, aliensIndexes[1])
+			alien.Remove(s.aliens, aliensIndexes[0])
+			alien.Remove(s.aliens, aliensIndexes[1])
 
 			for _, adjacentCities := range s.citiesMap {
 				delete(adjacentCities, city)
@@ -103,7 +107,7 @@ func (s Simulator) updateAliensInMap() {
 }
 
 // aliensUnder10kOrAllNi will return false if all the aliens are nil or all the aliens has reached 10k steps
-func aliensUnder10kOrAllNil(aliens []*Alien) bool {
+func aliensUnder10kOrAllNil(aliens []*alien.Alien) bool {
 	for _, alien := range aliens {
 		if alien != nil && alien.StepsCount < maxStepCount {
 			return true
