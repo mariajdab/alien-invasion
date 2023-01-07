@@ -8,26 +8,23 @@ type Alien struct {
 }
 
 // InitRandomPosition assigns a random position for the alien, the position will be between the numbers
-// that are associated with a city (citiesLedger)
+// that are associated with a city (mockCitiesLedger)
 func (a *Alien) InitRandomPosition(citiesLedger map[int]string) {
 	max := len(citiesLedger)
 	a.Position = citiesLedger[rand.Intn(max)]
 }
 
 // UpdatePosition
-func (a *Alien) UpdatePosition(citiesLedger map[int]string, citiesMap map[string]map[string]bool) {
-	citiesIds := keysFromMap(citiesLedger)
-	newPos := rand.Intn(len(citiesIds))
-
-	for citiesMap[a.Position][citiesLedger[newPos]] {
-		newPos = rand.Intn(len(citiesLedger))
+func (a *Alien) UpdatePosition(citiesMap map[string]map[string]bool) {
+	citiesIds := keysFromMap(citiesMap[a.Position])
+	if len(citiesIds) > 0 {
+		a.Position = citiesIds[rand.Intn(len(citiesIds))]
 	}
-	a.Position = citiesLedger[newPos]
 }
 
 // keysFromMap
-func keysFromMap(m map[int]string) []int {
-	keys := []int{}
+func keysFromMap(m map[string]bool) []string {
+	keys := []string{}
 	for k := range m {
 		keys = append(keys, k)
 	}
@@ -35,7 +32,7 @@ func keysFromMap(m map[int]string) []int {
 	return keys
 }
 
-// remove deletes an alien assigning it to nil
+// Remove remove deletes an alien assigning it to nil
 func Remove(slice []*Alien, s int) {
 	slice[s] = nil
 }
