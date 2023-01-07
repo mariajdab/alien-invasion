@@ -1,4 +1,4 @@
-package main
+package alien
 
 import "math/rand"
 
@@ -36,6 +36,6 @@ func keysFromMap(m map[int]string) []int {
 }
 
 // remove deletes an alien assigning it to nil
-func remove(slice []*Alien, s int) {
+func Remove(slice []*Alien, s int) {
 	slice[s] = nil
 }
