@@ -33,7 +33,9 @@ var (
 )
 
 func TestInitRandomPosition(t *testing.T) {
+	// the seed will allow to handle the test due it prevents an unexpected behaviour
 	rand.Seed(randomNumberGeneratorSeed)
+
 	alien := Alien{}
 	alien.InitRandomPosition(mockCitiesLedger)
 	if alien.Position != "Baz" {
@@ -42,7 +44,9 @@ func TestInitRandomPosition(t *testing.T) {
 }
 
 func TestUpdatePosition(t *testing.T) {
+	// the seed will allow to handle the test due it prevents an unexpected behaviour
 	rand.Seed(randomNumberGeneratorSeed)
+
 	alien := Alien{}
 	alien.InitRandomPosition(mockCitiesLedger)
 
