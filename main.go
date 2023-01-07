@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UnixNano())
 	citiesMap, citiesLedger := file.OpenAndReadCitiesFile("cities_list.txt")
 	alienNumber, err := strconv.Atoi(os.Args[1])
 	if err != nil {
