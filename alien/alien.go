@@ -7,22 +7,23 @@ type Alien struct {
 	Position   string
 }
 
-// InitRandomPosition assigns a random position for the alien, the position will be between the numbers
+// InitRandomPosition assigns the initial random position for the alien, the position will be between the numbers
 // that are associated with a city (mockCitiesLedger)
 func (a *Alien) InitRandomPosition(citiesLedger map[int]string) {
 	max := len(citiesLedger)
 	a.Position = citiesLedger[rand.Intn(max)]
 }
 
-// UpdatePosition
+// UpdatePosition update the alien position when generating a random int where the max number is adjacent cities len
 func (a *Alien) UpdatePosition(citiesMap map[string]map[string]bool) {
-	citiesIds := keysFromMap(citiesMap[a.Position])
-	if len(citiesIds) > 0 {
-		a.Position = citiesIds[rand.Intn(len(citiesIds))]
+	citiesIDs := keysFromMap(citiesMap[a.Position])
+	// check if the main city has any adjacent city
+	if len(citiesIDs) > 0 {
+		a.Position = citiesIDs[rand.Intn(len(citiesIDs))]
 	}
 }
 
-// keysFromMap
+// keysFromMap retrieves the slice of adjacent cities
 func keysFromMap(m map[string]bool) []string {
 	keys := []string{}
 	for k := range m {
