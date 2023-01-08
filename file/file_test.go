@@ -39,13 +39,18 @@ var (
 func TestReadCitiesFile(t *testing.T) {
 	buffer := bytes.Buffer{}
 	buffer.WriteString(mockFileData)
-	citiesMap, citiesLedger := ReadCitiesFile(&buffer)
+	citiesMap, citiesLedger, err := readCitiesFile(&buffer)
+
 	if !equalMaps(citiesMap, mockCitiesMap) {
 		t.Errorf("Invalid file read, expected map %#v, but got %#v", mockCitiesMap, citiesMap)
 	}
 
 	if !equalLedgers(citiesLedger, mockCitiesLedger) {
 		t.Errorf("Invalid file read, expected ledger %#v, but got %#v", mockCitiesLedger, citiesLedger)
+	}
+
+	if err != nil {
+		t.Error("Unexpected error:", err)
 	}
 }
 

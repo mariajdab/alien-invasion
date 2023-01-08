@@ -3,23 +3,22 @@ package file
 import (
 	"bufio"
 	"io"
-	"log"
 	"os"
 	"strings"
 )
 
 // OpenAndReadCitiesFile opens and reads the cities file and fills citiesMap and citiesLedger maps
-func OpenAndReadCitiesFile(fileName string) (map[string]map[string]bool, map[int]string) {
+func OpenAndReadCitiesFile(fileName string) (map[string]map[string]bool, map[int]string, error) {
 	f, err := os.Open(fileName)
 	if err != nil {
-		log.Fatal(err)
+		return nil, nil, err
 	}
 
 	defer f.Close()
-	return ReadCitiesFile(f)
+	return readCitiesFile(f)
 }
 
-func ReadCitiesFile(reader io.Reader) (map[string]map[string]bool, map[int]string) {
+func readCitiesFile(reader io.Reader) (map[string]map[string]bool, map[int]string, error) {
 	cityNumber := 0
 	// stores each city with his adjacent cities
 	citiesMap := make(map[string]map[string]bool)
@@ -40,10 +39,9 @@ func ReadCitiesFile(reader io.Reader) (map[string]map[string]bool, map[int]strin
 		cityNumber++
 	}
 	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		return nil, nil, err
 	}
-
-	return citiesMap, citiesLedger
+	return citiesMap, citiesLedger, nil
 }
 
 // processTokens retrieves each useful information (mainCity and adjCities) of the line that was split with spaces
