@@ -42,7 +42,7 @@ func (s *Simulator) updateMap() {
 		// only if there are two aliens in the same city they will fight,
 		// if there are three o more aliens in the same city is supposed that they can have a good relation
 		if len(aliensIndexes) == aliensFight {
-			log.Printf("%s has been destryed by alien %d and alien %d\n", city, aliensIndexes[0], aliensIndexes[1])
+			log.Printf("%s has been destryed by alien %d and alien %d!\n", city, aliensIndexes[0], aliensIndexes[1])
 			delete(s.CitiesMap, city)
 
 			alien.Remove(s.Aliens, aliensIndexes[0])
